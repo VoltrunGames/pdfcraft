@@ -37,11 +37,11 @@ struct Probe {
 pub fn run(args: &[String]) -> anyhow::Result<()> {
     let options = parse_args(args)?;
     if options.help {
-        println!("Usage: cargo xtask macos-integration [--bundle PdfCraft.app] [--pdf file.pdf]");
+        println!("Usage: cargo xtask macos-integration [--bundle Tend's PDF.app] [--pdf file.pdf]");
         return Ok(());
     }
     let mut report = String::new();
-    writeln!(report, "PdfCraft macOS integration diagnostics")?;
+    writeln!(report, "Tend's PDF macOS integration diagnostics")?;
     writeln!(report, "target: {} / {}", std::env::consts::OS, std::env::consts::ARCH)?;
     writeln!(report, "os version: {}", os_version())?;
 
@@ -110,7 +110,7 @@ fn write_bundle_report(report: &mut String, bundle: &Path) -> anyhow::Result<()>
         writeln!(report, "  bundle identifier: {bundle_id}")?;
         writeln!(report, "  minimum macOS: {minimum}")?;
         writeln!(report, "  PDF registration: {}", pdf_registration(text))?;
-        let executable = plist_value(text, "CFBundleExecutable").unwrap_or_else(|| "PdfCraft".into());
+        let executable = plist_value(text, "CFBundleExecutable").unwrap_or_else(|| "Tend's PDF".into());
         write_architecture_report(report, &contents.join("MacOS").join(executable))?;
     } else if plist.exists() {
         writeln!(report, "  Info.plist: present but not UTF-8 XML (binary plist inspection unavailable)")?;
@@ -316,8 +316,8 @@ mod tests {
     #[test]
     fn parses_optional_paths() {
         assert_eq!(
-            parse_args(&args(&["--bundle", "PdfCraft.app", "--pdf", "fixture.pdf"])).expect("arguments"),
-            Options { help: false, bundle: Some("PdfCraft.app".into()), pdf: Some("fixture.pdf".into()) }
+            parse_args(&args(&["--bundle", "Tend's PDF.app", "--pdf", "fixture.pdf"])).expect("arguments"),
+            Options { help: false, bundle: Some("Tend's PDF.app".into()), pdf: Some("fixture.pdf".into()) }
         );
     }
 
